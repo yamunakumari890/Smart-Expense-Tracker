@@ -64,3 +64,48 @@ body {
     font-weight: bold;
     color: #111827;
 }
+
+.transaction-section{
+  background: white;
+  padding: 25px;
+  margin-top: 30px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.transaction-section h2 {
+  font-size: 22px;
+  color: #111827;
+  margin-bottom: 25px;
+}
+
+#transactionForm {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+
+.form-group{
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  background: white;
+  outline: none;
+  transition: border-color 0.3s ease;;
+}
+
