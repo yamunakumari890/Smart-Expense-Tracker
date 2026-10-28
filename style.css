@@ -139,3 +139,39 @@ gap: 8px;
 .add-btn:hover {
   background: #B200ED;
 }
+
+@media (max-width: 650px) {
+  body {
+    padding: 20px 12px;
+  }
+
+  .header h1 {
+    font-size: 25px;
+  }
+
+  .summary-card {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .summary-card {
+    padding: 20px;
+  }
+
+  #transactionForm {
+    grid-template-columns: 1fr;
+  }
+
+  .transaction-section,
+  .history-section{
+    padding: 18px;
+  }
+
+  .history-header h2 {
+    font-size: 19px;
+  }
+
+  .transaction-item{
+    padding: 12px;
+  }
+}
