@@ -46,4 +46,23 @@ transactionForm.addEventListener("submit", function(event){
 
   console.log("New Transaction", transaction);
   console.log("All Transaction:", transaction);
+
+  function updateSummary() {
+    let income = 0;
+    let expenses = 0;
+
+    transactions.forEach(function (transction){
+      if(transction.type === "income") {
+        income += transction.amount; 
+      } else if (transction.type === "expenses") {
+        expenses += transction.amount;
+      }
+    });
+
+    const balance = income - expenses;
+
+    totalIncome.textContent = "₹" + income;
+    totalExpenses.textContent = "₹" + expenses;
+    totalBalance.textContent = "₹" + balance;
+  }
 });
