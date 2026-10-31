@@ -15,3 +15,22 @@ let transactions = [];
 
 console.log("Smart Expense Tracker is ready!");
 console.log(transactions);
+
+transactionForm.addEventListener("submit", function(event){
+  event.preventDefault();
+
+  const description = descriptionInput.value.trim();
+  const amount = Number(amountInput.value);
+  const type = typeInput.value;
+  const category = categoryInput.value;
+
+  if(description === "" || amount <= 0 || !Number.isFinite(amount)) {
+    alert("Please enter a valid description and amount!");
+    return;
+  }
+
+  console.log("Descrption:", description);
+  console.log("Amount", amount);
+  console.log("Type", type);
+  console.log("Category", category);
+});
