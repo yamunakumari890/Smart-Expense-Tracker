@@ -33,4 +33,17 @@ transactionForm.addEventListener("submit", function(event){
   console.log("Amount", amount);
   console.log("Type", type);
   console.log("Category", category);
+
+  const transaction = {
+    id: Date.now(),
+    description: description,
+    amount: amount,
+    type: type,
+    category: category
+  };
+
+  transactions.push(transaction);
+
+  console.log("New Transaction", transaction);
+  console.log("All Transaction:", transaction);
 });
