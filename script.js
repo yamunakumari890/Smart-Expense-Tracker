@@ -48,12 +48,15 @@ transactionForm.addEventListener("submit", function(event){
   console.log("All Transaction:", transaction);
 
   function updateSummary() {
+
     let income = 0;
     let expenses = 0;
 
     transactions.forEach(function (transction){
+
       if(transction.type === "income") {
         income += transction.amount; 
+        
       } else if (transction.type === "expense") {
         expenses += transction.amount;
       }
