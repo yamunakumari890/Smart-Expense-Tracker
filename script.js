@@ -54,7 +54,7 @@ transactionForm.addEventListener("submit", function(event){
     transactions.forEach(function (transction){
       if(transction.type === "income") {
         income += transction.amount; 
-      } else if (transction.type === "expenses") {
+      } else if (transction.type === "expense") {
         expenses += transction.amount;
       }
     });
