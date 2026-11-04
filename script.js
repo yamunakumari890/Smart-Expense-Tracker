@@ -44,6 +44,10 @@ transactionForm.addEventListener("submit", function(event){
 
   transactions.push(transaction);
 
+  updateSummary();
+  renderTransactions();
+  transactionForm.requestFullscreen();
+
   console.log("New Transaction", transaction);
   console.log("All Transaction:", transaction);
 
@@ -67,5 +71,31 @@ transactionForm.addEventListener("submit", function(event){
     totalIncome.textContent = "₹" + income;
     totalExpenses.textContent = "₹" + expenses;
     totalBalance.textContent = "₹" + balance;
+  }
+
+  function renderTransactions() {
+    transactionList.innerHTML = "";
+
+    if(transactions.length === 0) {
+      transactionList.innerHTML = "<p>No transactions yet.<p>";
+      return;
+    }
+
+    transactions.forEach(function(transaction){
+      const item = document.createElement("div");
+      item.classList.add("transaction-item");
+      item.innerHTML =  `
+      <div>
+      <h3>${transaction.description}</h3>
+      <p>${transaction.category}</p>
+      </div>
+      
+      <p>
+        ${transaction.type === "income" ? "+" : "-"}
+        ₹${transaction.amount}
+      </p>
+       `;
+      transactionList.appendChild(item);
+    });
   }
 });
