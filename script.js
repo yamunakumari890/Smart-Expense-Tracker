@@ -82,8 +82,39 @@ transactionForm.addEventListener("submit", function(event){
     }
 
     transactions.forEach(function(transaction){
+
       const item = document.createElement("div");
       item.classList.add("transaction-item");
+
+      const details = document.createElement("div");
+
+
+      const title = document.createElement("h3");
+      title.textContent = transaction.description;
+
+      const category = document.createElement("p");
+      category.textContent = transaction.category;
+
+      details.appendChild(title);
+      details.appendChild(category);
+
+      const amount = document.createElement("p");
+
+      amount.textContent = (transaction.type === "income" ? "+" : "-") + "₹" + transaction.amount;
+
+      const deleteBtn = document.createElement("button");
+
+      deleteBtn.textContent = "Delete";
+      deleteBtn.classList.add("delete-btn");
+      deleteBtn.dateset.id = transaction.id;
+
+      item.appendChild(details);
+      item.appendChild(amount);
+      item.appendChild(deleteBtn);
+
+      transactionList.appendChild(item);
+
+    
       item.innerHTML =  `
       <div>
       <h3>${transaction.description}</h3>
