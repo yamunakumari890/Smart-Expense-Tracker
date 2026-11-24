@@ -190,3 +190,16 @@ gap: 8px;
   align-items: center;
   margin-bottom: 20px;
 }
+
+.history-header h2{
+  font-size: 22px;
+  color: #111827;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-radius: 1px solid #e5e7eb;
+}
