@@ -29,11 +29,6 @@ transactionForm.addEventListener("submit", function(event){
     return;
   }
 
-  console.log("Descrption:", description);
-  console.log("Amount", amount);
-  console.log("Type", type);
-  console.log("Category", category);
-
   const transaction = {
     id: Date.now(),
     description: description,
@@ -46,23 +41,23 @@ transactionForm.addEventListener("submit", function(event){
 
   updateSummary();
   renderTransactions();
-  transactionForm.requestFullscreen();
+  transactionForm.reset();
 
-  console.log("New Transaction", transaction);
-  console.log("All Transaction:", transaction);
+
+  console.log("New Transaction:", transaction);
 
   function updateSummary() {
 
     let income = 0;
     let expenses = 0;
 
-    transactions.forEach(function (transction){
+    transactions.forEach(function(transaction){
 
-      if(transction.type === "income") {
-        income += transction.amount; 
+      if(transaction.type === "income") {
+        income += transaction.amount; 
         
-      } else if (transction.type === "expense") {
-        expenses += transction.amount;
+      } else if (transaction.type === "expense") {
+        expenses += transaction.amount;
       }
     });
 
@@ -106,7 +101,7 @@ transactionForm.addEventListener("submit", function(event){
 
       deleteBtn.textContent = "Delete";
       deleteBtn.classList.add("delete-btn");
-      deleteBtn.dateset.id = transaction.id;
+      deleteBtn.dataset.id = transaction.id;
 
       item.appendChild(details);
       item.appendChild(amount);
