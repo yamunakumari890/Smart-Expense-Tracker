@@ -13,51 +13,62 @@ const clearAllBtn = document.getElementById("clearAllBtn");
 
 let transactions = [];
 
-console.log("Smart Expense Tracker is ready!");
-console.log(transactions);
-
-transactionForm.addEventListener("submit", function(event){
-  event.preventDefault();
-
-  const description = descriptionInput.value.trim();
-  const amount = Number(amountInput.value);
-  const type = typeInput.value;
-  const category = categoryInput.value;
-
-  if(description === "" || amount <= 0 || !Number.isFinite(amount)) {
-    alert("Please enter a valid description and amount!");
-    return;
+  function saveTransactions() {
+     localStorage.setItem(
+      "transactions",
+      JSON.stringify(transactions)
+     );
   }
 
-  const transaction = {
-    id: Date.now(),
-    description: description,
-    amount: amount,
-    type: type,
-    category: category
-  };
+  function loadTransactions() {
 
-  transactions.push(transaction);
+    const savedTransactions = localStorage.getItem("transactions");
+    if(savedTransactions !== null) {
+      transactions = JSON.parse(savedTransactions);
+    }
 
-  updateSummary();
-  renderTransactions();
-  transactionForm.reset();
+    updateSummary();
+    renderTransactions();
+  }
 
+  transactionForm.addEventListener("submit", function(event){
+    event.preventDefault();
 
-  console.log("New Transaction:", transaction);
+    const description = descriptionInput.ariaValueMax.trim();
+    const amount = Number(amountInput.value);
+    const type = typeInput.value;
+    const category = categoryInput.value;
+
+    if(description === "" || amount <=0 || !Number.isFinite(amount)){
+      alert("please enter a valid description and amount!");
+      return;
+    }
+
+    const transaction = {
+      id: Date.now(), description: description, amount: amount, type: type, category: category
+    };
+
+    transactions.push(transaction);
+
+    saveTransactions();
+    updateSummary();
+    renderTransactions();
+
+    transactionForm.reset();
+
+  });
 
   function updateSummary() {
 
     let income = 0;
     let expenses = 0;
 
-    transactions.forEach(function(transaction){
-
+    transactions.forEach(function(transaction) {
+     
       if(transaction.type === "income") {
-        income += transaction.amount; 
-        
-      } else if (transaction.type === "expense") {
-        expenses += transaction.amount;
+        income += transaction.amount;
+      } else if(transaction.type === "expense") {
+
       }
     });
 
@@ -109,19 +120,37 @@ transactionForm.addEventListener("submit", function(event){
 
       transactionList.appendChild(item);
 
-    
-      item.innerHTML =  `
-      <div>
-      <h3>${transaction.description}</h3>
-      <p>${transaction.category}</p>
-      </div>
-      
-      <p>
-        ${transaction.type === "income" ? "+" : "-"}
-        ₹${transaction.amount}
-      </p>
-       `;
-      transactionList.appendChild(item);
     });
   }
-});
+    
+  transactionList.addEventListener("click", function(event){
+    if(event.target.classList.contains("delete-btn")){
+      const id = Number(event.target.dataset.id);
+      transactions = transactions.filter(function(transaction){
+        return transaction.id !== id;
+      });
+
+      saveTransactions();
+      updateSummary();
+      renderTransactions();
+    }
+  });
+
+  clearAllBtn.addEventListener("click", function() {
+    if(transactions.length === 0) {
+      alert("No transactions to clear!");
+      return;
+    }
+    const confirmClear = confirm("Are you sure you want to clear all transactions?");
+
+    if(confirmClear) {
+      transactions = [];
+
+      saveTransactions();
+      updateSummary();
+      renderTransactions();
+    }
+  });
+
+  loadTransactions();
+    
