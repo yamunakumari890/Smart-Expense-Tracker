@@ -34,7 +34,7 @@ let transactions = [];
   transactionForm.addEventListener("submit", function(event){
     event.preventDefault();
 
-    const description = descriptionInput.ariaValueMax.trim();
+    const description = descriptionInput.value.trim();
     const amount = Number(amountInput.value);
     const type = typeInput.value;
     const category = categoryInput.value;
@@ -68,7 +68,7 @@ let transactions = [];
       if(transaction.type === "income") {
         income += transaction.amount;
       } else if(transaction.type === "expense") {
-
+        expenses += transaction.amount;
       }
     });
 
@@ -83,7 +83,7 @@ let transactions = [];
     transactionList.innerHTML = "";
 
     if(transactions.length === 0) {
-      transactionList.innerHTML = "<p>No transactions yet.<p>";
+      transactionList.innerHTML = "<p>No transactions yet.</p>";
       return;
     }
 
