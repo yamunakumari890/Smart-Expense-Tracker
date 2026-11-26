@@ -11,6 +11,8 @@ const categoryInput = document.getElementById("category");
 const transactionList = document.getElementById("transactionList");
 const clearAllBtn = document.getElementById("clearAllBtn");
 
+const searchInput = document.getElementById("searchInput");
+
 let transactions = [];
 
   function saveTransactions() {
@@ -74,67 +76,67 @@ let transactions = [];
 
     const balance = income - expenses;
 
-    totalIncome.textContent = "₹" + income;
-    totalExpenses.textContent = "₹" + expenses;
-    totalBalance.textContent = "₹" + balance;
+    totalIncome.textContent = "₹" + income.toFixed(2);
+    totalExpenses.textContent = "₹" + expenses,toFixed(2);
+    totalBalance.textContent = "₹" + balance.toFixed(2);
   }
 
-  function renderTransactions() {
+  function renderTransactions(list = transactions) {
     transactionList.innerHTML = "";
 
-    if(transactions.length === 0) {
+    if(list.length === 0) {
       transactionList.innerHTML = "<p>No transactions yet.</p>";
       return;
     }
 
-    transactions.forEach(function(transaction){
+    list.forEach(function(transaction){
 
-      const item = document.createElement("div");
-      item.classList.add("transaction-item");
+      const transactionItem = document.createElement("div");
+      transactionItem.classList.add("transaction-item");
 
-      const details = document.createElement("div");
+       transactionItem.innerHTML= 
+        `
+            <div>
+                <h3>${transaction.description}</h3>
+                <p>${transaction.category}</p>
+            </div>
 
+            <div>
+             <span class="${transaction.type}">
+                    ${transaction.type === "income" ? "+" : "-"}₹${transaction.amount.toFixed(2)}
+                </span>
 
-      const title = document.createElement("h3");
-      title.textContent = transaction.description;
+                <button class="delete-btn">Delete</button>
+            </div>
+        `;
 
-      const category = document.createElement("p");
-      category.textContent = transaction.category;
+  
+      const deleteBtn = transactionItem.querySelector(".delete-btn");
 
-      details.appendChild(title);
-      details.appendChild(category);
-
-      const amount = document.createElement("p");
-
-      amount.textContent = (transaction.type === "income" ? "+" : "-") + "₹" + transaction.amount;
-
-      const deleteBtn = document.createElement("button");
-
-      deleteBtn.textContent = "Delete";
-      deleteBtn.classList.add("delete-btn");
       deleteBtn.dataset.id = transaction.id;
 
-      item.appendChild(details);
-      item.appendChild(amount);
-      item.appendChild(deleteBtn);
+        deleteBtn.addEventListener("click", function() {
 
-      transactionList.appendChild(item);
+            deleteTransaction(transaction.id);
+
+        });
+
+      transactionList.appendChild(transactionItem);
 
     });
   }
-    
-  transactionList.addEventListener("click", function(event){
-    if(event.target.classList.contains("delete-btn")){
-      const id = Number(event.target.dataset.id);
-      transactions = transactions.filter(function(transaction){
-        return transaction.id !== id;
-      });
 
-      saveTransactions();
-      updateSummary();
-      renderTransactions();
-    }
-  });
+  function deleteTransaction(id) {
+
+    transactions = transactions.filter(function(transaction) {
+        return transaction.id !== id;
+    });
+
+    saveTransactions();
+    updateSummary();
+    renderTransactions();
+
+}
 
   clearAllBtn.addEventListener("click", function() {
     if(transactions.length === 0) {
@@ -151,6 +153,15 @@ let transactions = [];
       renderTransactions();
     }
   });
+
+   function searchTransactions() {
+    const searchValue = searchInput.value.toLowerCase().trim();
+    const filteredTransactions = transactions.filter(function(transaction){
+      return transaction.description.toLowerCase().includes(searchValue);
+    });
+    renderTransactions(filteredTransactions);
+  }
+  searchInput.addEventListener("input", searchTransactions);
 
   loadTransactions();
     
