@@ -12,6 +12,7 @@ const transactionList = document.getElementById("transactionList");
 const clearAllBtn = document.getElementById("clearAllBtn");
 
 const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 
 let transactions = [];
 
@@ -134,7 +135,7 @@ let transactions = [];
 
     saveTransactions();
     updateSummary();
-    renderTransactions();
+    filterTransactions();
 
 }
 
@@ -161,7 +162,20 @@ let transactions = [];
     });
     renderTransactions(filteredTransactions);
   }
-  searchInput.addEventListener("input", searchTransactions);
+  searchInput.addEventListener("input", filterTransactions);
+  categoryFilter.addEventListener("change", filterTransactions);
+
+  function filterTransactions() {
+    const selectedCategory = categoryFilter.value;
+    const filteredTransactions = transactions.filter(function(transaction){
+      const matchesSearch = transaction.description.toLowerCase().includes(searchInput.value.toLowerCase().trim());
+
+      const matchesCategory = selectedCategory === "all" || transaction.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+    renderTransactions(filterTransactions);
+  }
 
   loadTransactions();
     
